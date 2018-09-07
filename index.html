@@ -1,0 +1,393 @@
+<html>
+<style>
+    form {
+        font-family: Palatino Linotype;
+        margin-left: 8px;
+        margin-right: 8px;
+        border: none;
+    }
+
+    * {
+        margin-top: 0px;
+    }
+
+    body {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    h3 {
+        width: 100%;
+        background-color: deepskyblue;
+        color: white;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 38px;
+        font-family: Palatino Linotype;
+    }
+
+    .ao {
+        text-align: center;
+        background-color: deepskyblue;
+        border: none;
+        background-clip: none;
+        color: white;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    #fname {
+        height: 27px;
+    }
+
+    #mno {
+        height: 27px;
+    }
+
+    #email {
+        height: 27px;
+    }
+
+
+
+    #output {
+        text-align: center;
+    }
+
+    .ok::after {
+        content: "  *";
+        color: red;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: deepskyblue;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 8px 8px 8px border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 38px;
+        font-family:;
+    }
+
+        input[type=submit]:hover {
+            background-color: #00a9ff;
+            height: 38px;
+            font-family: Avenir;
+            ;
+        }
+
+    input[type=text], [type=number], [type=email], [type=tel], [type=date], select {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        height: 27px;
+    }
+
+    #output {
+        text-align: left;
+    }
+
+    #check {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .me {
+        text-align: center;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
+<head>
+<title>Login</title>
+
+<div class="ao"><h3>Vehicle Details </h3></div>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+<script>
+ //cascading dropdown menu
+var state = new Array("GOA", "MANIPUR", "NEW DELHI");
+var city = new Array();
+city["GOA"] = new Array("DAMAN", "DIU", "GOA", "NORTH GOA");
+city["MANIPUR"] = new Array("CHURACHANDPUR", "IMPHAL", "KANGPOPKI", "THOUBAL");
+city["NEW DELHI"] = new Array("DELHI");
+var manufacturer = new Array("AMPERE","APRILIA","ESCORT");
+var mod=new Array();
+mod["AMPERE"]=new Array("BOBO", "DITI", "V-60");
+mod["APRILIA"]=new Array("SR","SR-125");
+mod["ESCORT"]=new Array("RAJDOOT");
+
+function reset(theForm) {
+
+  theForm.state.options[0] = new Option("Select State..", "");
+  for (var i=0; i
+<state.length; i++) {
+               theForm.state.options[i+1]=new Option(state[i], state[i]);
+               }
+               theForm.state.options[0].selected=true;
+  /* reset items */
+  theForm.city.options[0] = new Option("Select City..", "");
+  theForm.city.options[0].selected = true;
+}
+
+function update(theForm) {
+  var make = theForm.state.options[theForm.state.options.selectedIndex].value;
+  var newModels = city[make];
+  theForm.city.options.length = 0;
+  theForm.city.options[0] = new Option("Select City..", "");
+  for (var i=0; i
+<newModels.length; i++) {
+                   theForm.city.options[i+1]=new Option(newModels[i], newModels[i]);
+                   }
+                   theForm.city.options[0].selected=true;
+}
+function reset1(theForm) {
+                   theForm.manufacturer.options[0]=new Option("Select Manufacturer..", "" );
+                   for (var i=0; i<manufacturer.length; i++) {
+    theForm.manufacturer.options[i+1] = new Option(manufacturer[i],manufacturer[i]);
+  }
+  theForm.manufacturer.options[0].selected = true;
+  /* reset items */
+  theForm.mod.options[0] = new Option("Select Model..", "");
+  theForm.mod.options[0].selected = true;
+}
+
+
+function update1(theForm) {
+  var make = theForm.manufacturer.options[theForm.manufacturer.options.selectedIndex].value;
+  var newModels = mod[make];
+  theForm.mod.options.length = 0;
+  theForm.mod.options[0] = new Option("Select Model..", "");
+  for (var i=0; i<newModels.length; i++) {
+    theForm.mod.options[i+1] = new Option(newModels[i], newModels[i]);
+  }
+  theForm.mod.options[0].selected = true;
+}
+
+reset(document.login);
+reset1(document.login);
+
+   //Manufacturing Year Range
+    var start = 2008;
+    var end = new Date().getFullYear();
+    var options = "";
+    for (var year = start ; year <= end; year++) {
+        options += "<option>" + year + "</option>";
+    }
+    document.getElementById("manf").innerHTML = options;
+
+  //Inception Date Range
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;//0-11
+
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("idate").min = today + "";
+//Date of first Registration (10 years ago from TODAY)
+    var today1 = new Date();
+    var yyyy = today1.getFullYear();
+    yyyy = yyyy - 10;
+    today1 = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("firstreg").min = today1 + "";
+
+ //Expiration Date Autocomplete
+function update2(form) {
+    var policy_period = form.pperiod.value;
+
+
+
+      var str = form.idate.value;
+      var result = str.substring(0, 4);
+      var year = Number(result);
+
+   if(policy_period==1){
+      year = year + 1;
+    }
+   if(policy_period==2){
+       year=year+2;
+    }
+   if(policy_period==3){
+       year=year+3;
+      }
+      var result1 = str.substring(8, 10);
+      var date = Number(result1);
+
+
+
+      if (date == 1) {
+          date = 31;
+          //HANDLE FOR MONTH(odd/even months)
+
+      } else{
+
+
+
+          date = date - 1;
+      }
+
+
+      var final = String(year);
+      if (date < 10) {
+          date = '0' + date;
+      }
+
+      var final1 = String(date);
+
+
+      //document.getElementById("output").innerHTML = final;
+      str = final + str.substring(4, 8) + final1;
+    //   document.getElementById("output").innerHTML = str;
+      document.getElementById("output").innerHTML = str;
+      form.edate.value = str;
+
+  }
+
+
+//Submit(JSON)
+function make_json(form){
+   var json={
+     "ins_name":form.fname.value,
+           "mob_no":form.mno.value,
+           "email_id":form.email.value,
+           "policy_type":form.policytype.value,
+           "ins_type":form.insurancetype.value,
+             "reg_state":form.state.value,
+            "reg_city":form.city.value,
+             "manufacturer":form.manufacturer.value,
+             "model":form.mod.value,
+            "two_wheeler_type":form.ttype.value,
+            "manufacturing_year":form.manf.value,
+             "date_of_reg":form.firstreg.value,
+             "policy_period":form.pperiod.value,
+             "inception_date":form.idate.value,
+             "expiration_date":form.edate.value,
+              "discount":form.disc.value
+              };
+     var html=JSON.stringify(json);
+
+      alert(html);
+//document.getElementById("output").innerHTML=html;
+
+
+return false;//CANCEL SUBMIT
+}
+
+
+
+
+
+
+    //DatabaseConnection
+function suc() {
+    onDeviceReady();
+}
+
+// Wait for device API libraries to load
+//
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// device APIs are available
+//
+function onDeviceReady() {
+    var a = document.getElementById('try1').value;
+    var b = document.getElementById('try2').value;
+    var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+    db.transaction(populateDB, errorCB, successCB);
+
+}
+
+// Populate the database
+//
+function populateDB(tx) {
+
+    tx.executeSql('CREATE TABLE IF NOT EXISTS twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount)');
+  //  var a = document.getElementById('try1').value;
+  //  var b = document.getElementById('try2').value;
+    tx.executeSql("INSERT INTO twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount) VALUES (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+
+}
+
+// Transaction error callback
+//
+function errorCB(tx, err) {
+    //
+}
+
+// Transaction success callback
+//
+function successCB() {
+    alert("success!");
+}
+
+
+
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <div class="check">
+        <form name="login" onsubmit="return make_json(this);">
+            <label style="float:left">Insured Name:</label><input type="text" name="fname" id="fname" placeholder="Insured Name " /><br /><br />
+            <label style="float:left">Mobile No:</label><input type="number" number="mno" id="mno" placeholder="Mobile No" onKeyPress="if(this.value.length==10) return false;" /><br /><br />
+            <label style="float:left">Email Id:</label> <input type="email" name="email" id="email" placeholder="Email Id"><br><br>
+            <div class="ok">Policy Type:</div><select type="text" name="policytype" id="policytype" required>
+                <option value="comprehensive">Comprehensive</option>
+                <option value="actOnly">Act Only</option>
+            </select><br><br>
+            <div class="ok">Insurance Type:</div><select type="text" name="insurancetype" id="insurancetype" required>
+                <option value="newv">New Vehicle Without NCB</option>
+                <option value="other">Other Company Renewals</option>
+            </select><br><br>
+            <div class="ok">Registration State:</div><select type="text" name="state" id="state" onchange="update(this.form)" required> </select><br><br>
+            <div class="ok">Registration City:</div><select text="text" name="city" id="city" onclick="" required></select><br><br>
+            <div class="ok">Manufacturer:</div><select type="text" name="manfacturer" id="manufacturer" onchange="update1(this.form)" required> </select><br><br>
+            <div class="ok">Model:</div><select type="text" name="mod" id="mod" onclick="" required> </select><br><br>
+            <div class="ok">Two Wheeler Type:</div><select type="text" name="ttype" id="ttype" required>
+                <option value="eb">Electric Bike</option>
+                <option value="mc">Motor Cycle</option>
+                <option value="sc">Scooter</option>
+            </select><br><br>
+            <div class="ok">Manufacturing Year:</div><select name="manf" id="manf" required></select><br><br>
+            <div class="ok">Date of first registration:</div><input class="now" type="date" name="firstreg" id="firstreg" required><br><br>
+            <div class="ok">Policy Period:</div><select type="text" name="pperiod" id="pperiod" required>
+                <option value="1">1 Year</option>
+                <option value="2">2 Year</option>
+                <option value="3">3 Year</option>
+            </select><br><br>
+            <div class="ok">Inception Date:</div><input id="idate" type="date" name="idate" onchange="update2(this.form)" required><br><br>
+            <div class="ok">Expiration Date:</div><input id="edate" type="date" name="edate" readonly required><br><br>
+            <div class="ok">Discount/Loading(%):</div><input type="number" name="disc" id="disc" value="0" min="0" max="99" onKeyPress="if(this.value.length==2) return false;" /><br><br>
+
+            <input id="subm" type="submit" value="Quick Quote"><br />
+            <input id="db" type="submit" value="Insert" onclick="suc();" />
+        </form>
+
+    </div>
+    <p id="output">JSON</p>
+
+
+
+
+</body>
+
+
+</html>
