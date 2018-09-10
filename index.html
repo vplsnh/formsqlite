@@ -33,7 +33,6 @@
         text-align: center;
         background-color: deepskyblue;
         border: none;
-        background-clip: none;
         color: white;
         margin-left: 0px;
         margin-right: 0px;
@@ -67,7 +66,7 @@
         background-color: deepskyblue;
         color: white;
         padding: 14px 20px;
-        margin: 8px 8px 8px 8px border: none;
+        margin: 8px 8px 8px 8px 
         border-radius: 4px;
         cursor: pointer;
         height: 38px;
@@ -109,10 +108,55 @@
 
 <head>
 <title>Login</title>
-
 <div class="ao"><h3>Vehicle Details </h3></div>
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-<script>
+</head>
+
+<body>
+
+    <div class="check">
+        <form name="login" onsubmit="return make_json(this);">
+            <label style="float:left">Insured Name:</label><input type="text" name="fname" id="fname" placeholder="Insured Name " /><br /><br />
+            <label style="float:left">Mobile No:</label><input type="number" number="mno" id="mno" placeholder="Mobile No" onKeyPress="if(this.value.length==10) return false;" /><br /><br />
+            <label style="float:left">Email Id:</label> <input type="email" name="email" id="email" placeholder="Email Id"><br><br>
+            <div class="ok">Policy Type:</div><select type="text" name="policytype" id="policytype" required>
+                <option value="comprehensive">Comprehensive</option>
+                <option value="actOnly">Act Only</option>
+            </select><br><br>
+            <div class="ok">Insurance Type:</div><select type="text" name="insurancetype" id="insurancetype" required>
+                <option value="newv">New Vehicle Without NCB</option>
+                <option value="other">Other Company Renewals</option>
+            </select><br><br>
+            <div class="ok">Registration State:</div><select type="text" name="state" id="state" onchange="update(this.form)" required> </select><br><br>
+            <div class="ok">Registration City:</div><select text="text" name="city" id="city" onclick="" required></select><br><br>
+            <div class="ok">Manufacturer:</div><select type="text" name="manfacturer" id="manufacturer" onchange="update1(this.form)" required> </select><br><br>
+            <div class="ok">Model:</div><select type="text" name="mod" id="mod" onclick="" required> </select><br><br>
+            <div class="ok">Two Wheeler Type:</div><select type="text" name="ttype" id="ttype" required>
+                <option value="eb">Electric Bike</option>
+                <option value="mc">Motor Cycle</option>
+                <option value="sc">Scooter</option>
+            </select><br><br>
+            <div class="ok">Manufacturing Year:</div><select name="manf" id="manf" required></select><br><br>
+            <div class="ok">Date of first registration:</div><input class="now" type="date" name="firstreg" id="firstreg" required><br><br>
+            <div class="ok">Policy Period:</div><select type="text" name="pperiod" id="pperiod" required>
+                <option value="1">1 Year</option>
+                <option value="2">2 Year</option>
+                <option value="3">3 Year</option>
+            </select><br><br>
+            <div class="ok">Inception Date:</div><input id="idate" type="date" name="idate" onchange="update2(this.form)" required><br><br>
+            <div class="ok">Expiration Date:</div><input id="edate" type="date" name="edate" readonly required><br><br>
+            <div class="ok">Discount/Loading(%):</div><input type="number" name="disc" id="disc" value="0" min="0" max="99" onKeyPress="if(this.value.length==2) return false;" /><br><br>
+
+            <input id="subm" type="submit" value="Quick Quote"><br />
+            <input id="db" type="submit" value="Insert" onclick="suc();" />
+        </form>
+
+    </div>
+    <p id="output">JSON</p>
+
+
+
+    <script>
  //cascading dropdown menu
 var state = new Array("GOA", "MANIPUR", "NEW DELHI");
 var city = new Array();
@@ -304,8 +348,9 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // device APIs are available
 //
 function onDeviceReady() {
-    var a = document.getElementById('try1').value;
-    var b = document.getElementById('try2').value;
+  //  var a = document.getElementById('try1').value;
+    // var b = document.getElementById('try2').value;
+    
     var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
     db.transaction(populateDB, errorCB, successCB);
 
@@ -314,11 +359,11 @@ function onDeviceReady() {
 // Populate the database
 //
 function populateDB(tx) {
-
+    tx.executeSql('DROP TABLE IF EXISTS twp');
     tx.executeSql('CREATE TABLE IF NOT EXISTS twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,reg_city,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount)');
   //  var a = document.getElementById('try1').value;
   //  var b = document.getElementById('try2').value;
-    tx.executeSql("INSERT INTO twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,reg_city,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount) VALUES (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+    tx.executeSql('INSERT INTO twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,reg_city,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount) VALUES (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
 
 }
 
@@ -337,56 +382,6 @@ function successCB() {
 
 
     </script>
-
-
-
-</head>
-
-<body>
-
-    <div class="check">
-        <form name="login" onsubmit="return make_json(this);">
-            <label style="float:left">Insured Name:</label><input type="text" name="fname" id="fname" placeholder="Insured Name " /><br /><br />
-            <label style="float:left">Mobile No:</label><input type="number" number="mno" id="mno" placeholder="Mobile No" onKeyPress="if(this.value.length==10) return false;" /><br /><br />
-            <label style="float:left">Email Id:</label> <input type="email" name="email" id="email" placeholder="Email Id"><br><br>
-            <div class="ok">Policy Type:</div><select type="text" name="policytype" id="policytype" required>
-                <option value="comprehensive">Comprehensive</option>
-                <option value="actOnly">Act Only</option>
-            </select><br><br>
-            <div class="ok">Insurance Type:</div><select type="text" name="insurancetype" id="insurancetype" required>
-                <option value="newv">New Vehicle Without NCB</option>
-                <option value="other">Other Company Renewals</option>
-            </select><br><br>
-            <div class="ok">Registration State:</div><select type="text" name="state" id="state" onchange="update(this.form)" required> </select><br><br>
-            <div class="ok">Registration City:</div><select text="text" name="city" id="city" onclick="" required></select><br><br>
-            <div class="ok">Manufacturer:</div><select type="text" name="manfacturer" id="manufacturer" onchange="update1(this.form)" required> </select><br><br>
-            <div class="ok">Model:</div><select type="text" name="mod" id="mod" onclick="" required> </select><br><br>
-            <div class="ok">Two Wheeler Type:</div><select type="text" name="ttype" id="ttype" required>
-                <option value="eb">Electric Bike</option>
-                <option value="mc">Motor Cycle</option>
-                <option value="sc">Scooter</option>
-            </select><br><br>
-            <div class="ok">Manufacturing Year:</div><select name="manf" id="manf" required></select><br><br>
-            <div class="ok">Date of first registration:</div><input class="now" type="date" name="firstreg" id="firstreg" required><br><br>
-            <div class="ok">Policy Period:</div><select type="text" name="pperiod" id="pperiod" required>
-                <option value="1">1 Year</option>
-                <option value="2">2 Year</option>
-                <option value="3">3 Year</option>
-            </select><br><br>
-            <div class="ok">Inception Date:</div><input id="idate" type="date" name="idate" onchange="update2(this.form)" required><br><br>
-            <div class="ok">Expiration Date:</div><input id="edate" type="date" name="edate" readonly required><br><br>
-            <div class="ok">Discount/Loading(%):</div><input type="number" name="disc" id="disc" value="0" min="0" max="99" onKeyPress="if(this.value.length==2) return false;" /><br><br>
-
-            <input id="subm" type="submit" value="Quick Quote"><br />
-            <input id="db" type="submit" value="Insert" onclick="suc();" />
-        </form>
-
-    </div>
-    <p id="output">JSON</p>
-
-
-
-
 </body>
 
 
