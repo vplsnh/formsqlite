@@ -315,10 +315,10 @@ function onDeviceReady() {
 //
 function populateDB(tx) {
 
-    tx.executeSql('CREATE TABLE IF NOT EXISTS twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,reg_city,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount)');
   //  var a = document.getElementById('try1').value;
   //  var b = document.getElementById('try2').value;
-    tx.executeSql("INSERT INTO twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount) VALUES (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+    tx.executeSql("INSERT INTO twp (ins_name,mob_no,email_id,policy_type,ins_type,reg_state,reg_city,manufacturer,model,two_wheeler_type,manufacturing_year,date_of_reg,policy_period,inception_date,expiration_date,discount) VALUES (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
 
 }
 
